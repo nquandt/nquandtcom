@@ -1,0 +1,40 @@
+@import "@unocss/reset/tailwind-compat.css";
+
+@unocss all;
+
+a {
+  text-decoration: unset;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+* {
+  transition-property: color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 100ms;
+}
+
+.dark button:hover {
+  color: white;
+}
+
+.dark a:hover {
+  color: white;
+}
+
+.underline__a a {
+  text-decoration: underline;
+}
+
+li {
+  p {
+    display: inline;
+  }
+}
+
+ul {
+  @apply list-list text-sm print:text-xs;
+}

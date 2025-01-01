@@ -1,0 +1,75 @@
+[Oo]bj/
+[Bb]in/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+.build/
+build/
+!/docker/build
+!/**/docker/**/[Bb]in/
+
+# Hedgehog Team Development for Sitecore
+*.scproj.user
+IconCache/
+T4RenderCache/
+BuiltFiles_*.txt
+
+specs/**/[Bb]in/
+.nuget/
+_ReSharper.*
+packages/
+artifacts/
+*.user
+*.cache
+*.suo
+*.userprefs
+*DS_Store
+*.sln.ide
+lib/license.xml
+lib/Sitecore/*
+!lib/Sitecore/readme.MD
+lib/System/*
+!lib/System/readme.MD
+.sonar
+vars.user.cmd
+/.vs
+/target
+**/node_modules
+temp/
+*.ncrunchproject
+*.ncrunchsolution
+.vscode
+nCrunchTemp*.*
+/src/Project/MilwaukeeTool/tds/Sitecore.MilwaukeeTool.Website.Master/Sitecore.MilwaukeeTool.Website.Master_Debug.xml
+/src/Feature/Navigation/Sitecore.Feature.Navigation.Master/Sitecore.Feature.Navigation.Master_Debug.xml
+/src/Feature/Navigation/Sitecore.Feature.Navigation/Sitecore.Feature.Navigation.csproj.DotSettings
+*.DotSettings
+gulp-config-local.js
+/empirelevel/
+/empirelevel/
+*.trx
+/TestResults/*
+/sandbox
+/sandboxUpgrade
+
+# Packout Builder
+packout.error
+packout.log
+src/Feature/PackoutBuilder/MilwaukeeTool.Feature.PackoutBuilder/scripts/PackoutBuilder/React/*
+
+# may contain OAuth secrets, do not commit
+.sitecore/user.json
+
+# package reference cache
+.sitecore/package-cache
+
+# Ephemeral index caches used by serialization, do not commit
+.scindex
+
+# Don't commit packages
+*.itempackage
+*.sicpackage
+
+.env
