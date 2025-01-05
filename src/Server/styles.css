@@ -11,10 +11,12 @@ html {
   overflow-x: hidden;
 }
 
-* {
-  transition-property: color;
-  transition-timing-function: ease-in-out;
-  transition-duration: 100ms;
+@screen md {
+  * {
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    transition-duration: 100ms;
+  }
 }
 
 .dark button:hover {
