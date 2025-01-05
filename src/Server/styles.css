@@ -23,6 +23,10 @@ a:hover {
   color:black;
 }
 
+button:hover {
+  color:black;
+}
+
 .dark button:hover {
   color: white;  
 }
