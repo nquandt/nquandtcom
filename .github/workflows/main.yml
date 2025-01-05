@@ -48,7 +48,8 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION $IMAGE_ID:$SHA
+          echo SHA=$SHA
+          docker tag $IMAGE_NAME $IMAGE_ID:$SHA          
           docker push $IMAGE_ID:$VERSION
 
       - name: Log in to Azure
@@ -59,7 +60,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   
       - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
+        uses: azure/container-apps-deploy-action@v2
         with:          
           containerAppName: nquandtcom-htmx-aca
           resourceGroup: nquandtcomhtmx
