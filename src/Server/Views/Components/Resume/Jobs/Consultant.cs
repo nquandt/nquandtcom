@@ -3,7 +3,7 @@ namespace Components.Resume.Jobs;
 
 public class Consultant : JobModel
 {
-    public override string Title => "Software Architect [Consultant]";
+    public override string Title => "Software Consultant";
     public override string[] Bullets => [
         "Migrate Mulesoft Flows to .NET Web API's incrementally by endpoint.",
         "Build .NET API wrappers around legacy soap services to utilize REST + JSON instead of XML.",
