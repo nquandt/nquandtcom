@@ -50,7 +50,7 @@ jobs:
           echo VERSION=$VERSION
           echo SHA=$SHA
           docker tag $IMAGE_NAME $IMAGE_ID:$SHA          
-          docker push $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$SHA
 
       - name: Log in to Azure
         uses: azure/login@v2
