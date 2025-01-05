@@ -9,7 +9,8 @@ on:
       - master
 
 permissions:
-  id-token: write # Require write permission to Fetch an OIDC token.
+  id-token: write
+  contents: read
 
 env:
   IMAGE_NAME: nquandtcom-htmx
