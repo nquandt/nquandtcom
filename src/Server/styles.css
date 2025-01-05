@@ -19,8 +19,12 @@ html {
   }
 }
 
+a:hover {
+  color:black;
+}
+
 .dark button:hover {
-  color: white;
+  color: white;  
 }
 
 .dark a:hover {
