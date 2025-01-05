@@ -11,14 +11,6 @@ html {
   overflow-x: hidden;
 }
 
-@screen md {
-  * {
-    transition-property: color;
-    transition-timing-function: ease-in-out;
-    transition-duration: 100ms;
-  }
-}
-
 .light a:hover {
   color:black;
 }

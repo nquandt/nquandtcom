@@ -40,7 +40,7 @@ app.MapGet("/{**slug}", async ([FromServices] IRazorTemplateEngine engine, [From
     {
         var (_, fourOhFourPage) = await engine.TryRenderAsync($"/Pages/404/index.cshtml", null);
         
-        return new HtmlResult(fourOhFourPage!);
+        return new HtmlResult(fourOhFourPage!, System.Net.HttpStatusCode.NotFound);
     }
 
     return new HtmlResult(renderedString!);
