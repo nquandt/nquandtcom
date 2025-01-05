@@ -19,11 +19,11 @@ html {
   }
 }
 
-a:hover {
+.light a:hover {
   color:black;
 }
 
-button:hover {
+.light button:hover {
   color:black;
 }
 
