@@ -2,16 +2,15 @@
 name: Docker Up
 
 # This workflow runs when any of the following occur:
-# - A push is made to a branch called `main` or `seed`
-# - A tag starting with "v" is created
-# - A pull request is created or updated
+# - A push is made to a branch called `master`
 on:
   push:
     branches:
       - master
-    tags:
-      - v*
-  # This creates an environment variable called `IMAGE_NAME ` with the value `ghtoken_product_demo`.
+
+permissions:
+  id-token: write # Require write permission to Fetch an OIDC token.
+
 env:
   IMAGE_NAME: nquandtcom-htmx
 #
@@ -43,8 +42,31 @@ jobs:
           # This strips the "v" prefix from the tag name.
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           # This uses the Docker `latest` tag convention.
-          [ "$VERSION" == "main" ] && VERSION=latest
+          [ "$VERSION" == "master" ] && VERSION=latest
+
+          SHA=$(echo "${{ github.sha }}")
+
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION $IMAGE_ID:$SHA
           docker push $IMAGE_ID:$VERSION
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:          
+          containerAppName: nquandtcom-htmx-aca
+          resourceGroup: nquandtcomhtmx
+          imageToDeploy: ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+
+## Prinicpal ID: f5a6c0fa-0754-47de-8fe9-676a1f46ef2f
+## Client ID: 1709569c-8027-4183-8a4f-742acba70c4a
+## Sub ID: 7a4c3110-5889-4989-9cc1-fca8a7dda10e
+## Tenant ID: aaece457-d7cf-42f5-8442-90cd75395c78
