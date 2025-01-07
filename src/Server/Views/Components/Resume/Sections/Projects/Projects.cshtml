@@ -1,1 +1,18 @@
-I am projects
+@using Components
+
+@(await Html.RenderViewAsync<BulletsSubSection>(new BulletsSubSection()
+{
+    Bullets = [
+    "All of the code for my website is available on github.",
+    "I'm utilizing Razor pages, htmx, hyperscript and UnoCSS.",
+    "Deployed as an Azure Container App behind Cloudflare CDN."
+    ],
+    Header =
+        @<div class="flex justify-between item w-full">
+            <div class="flex flex-col">                
+                <a class="textPrimary" href="https://www.github.com/nquandt/nquandtcom-htmx" target="_blank">
+                    <div class="text-xl font-bold">nquandt.com</div>
+                </a>                
+            </div>        
+        </div>
+}))
