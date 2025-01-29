@@ -3,7 +3,7 @@ namespace Components.Resume.Jobs;
 
 public class MilwaukeeTool : JobModel
 {
-    public override string DateRange => "August 2021 - Present";
+    // public override string DateRange => "August 2021 - Present";
     public override string Title => "Software Architect";
 
     public override string Company => "Milwaukee Tool";

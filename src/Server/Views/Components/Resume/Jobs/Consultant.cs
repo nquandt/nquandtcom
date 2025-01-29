@@ -3,7 +3,7 @@ namespace Components.Resume.Jobs;
 
 public class Consultant : JobModel
 {
-    public override string DateRange => "Various 6-12 month contracts";
+    public override string DateRange => "Various contracts";
     public override string Title => "Software Consultant";
     public override string[] Bullets => [
 "Led an incremental migration of Mulesoft flows to .NET Web APIs, implementing a phased approach by endpoint to ensure seamless integration and minimal disruption to business operations.",
