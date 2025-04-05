@@ -1,0 +1,30 @@
+---
+type Position = {
+    title: string;
+    time: string;
+    location: string;
+    company: string;
+};
+interface Props {
+    position: Position | Position[];
+
+    Content: AstroComponentFactory;
+}
+
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import Prose from "@/components/Prose.astro";
+import Position from "./Position.astro";
+
+const { position, Content } = Astro.props;
+
+const positions = Array.isArray(position) ? position : [position];
+---
+
+<div class="flex flex-col w-full">
+    <div>
+        {positions.map((x) => <Position {...x} />)}
+    </div>
+    <Prose>
+        <Content />
+    </Prose>
+</div>

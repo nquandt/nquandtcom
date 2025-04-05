@@ -1,0 +1,47 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import Summary from "@/components/resume/Summary.astro";
+import Experience from "@/components/resume/Experience.astro";
+import Section from "@/components/resume/Section.astro";
+import Job from "@/components/resume/Job.astro";
+import Markdown from "@/components/Markdown.astro";
+import Prose from "@/components/Prose.astro";
+---
+
+<Layout title="Resume">
+    <Container>
+        <div
+            id="section-to-print"
+            class="flex flex-col w-full gap-6 print:text-sm"
+        >
+            <Summary />
+            <Experience />
+            <Section title="Education">
+                <div class="flex justify-between">
+                    <div class="font-bold">Marquette University</div>
+                    <div>Milwaukee, WI</div>
+                </div>
+                <div>
+                    <div
+                        class="flex justify-between list-disc list-inside -indent-12 !pl-12"
+                    >
+                        <div style={{ display: "list-item" }}>
+                            Master of Science in Computer Science
+                        </div>
+                        <div>August 2019 - July 2021</div>
+                    </div>
+                    <div
+                        class="flex justify-between list-disc list-inside -indent-12 !pl-12"
+                    >
+                        <div style={{ display: "list-item" }}>
+                            Bachelor of Science in Mathematics
+                        </div>
+                        <div>August 2016 - May 2019</div>
+                    </div>
+                </div>
+            </Section>
+            <Section title="Projects"> projects </Section>
+        </div>
+    </Container>
+</Layout>

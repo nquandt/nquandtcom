@@ -1,64 +1,105 @@
-using System.Reflection;
+using Azure.Identity;
+using Azure.Storage.Blobs;
+using Femur;
+using Femur.FileSystem;
+using Femur.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Razor.Templating.Core;
+using Microsoft.Extensions.Options;
+using Server;
+using Server.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorTemplating();
+builder.Configuration.AddEnvironmentVariables("ENV_");
 
-builder.Services.Configure<RazorViewEngineOptions>(options =>
+builder.Services.AddTransient<UpdateEndpoint>();
+
+builder.Services.TryConfigureByConventionWithValidation<StorageOptions>();
+
+builder.Services.AddSingleton<IFileSystem>((IServiceProvider sp) =>
 {
-    options.ViewLocationExpanders.Add(new Expander());
-    options.ViewLocationFormats.Add("/Views/{0}/_" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);    
-    options.ViewLocationFormats.Add("/Pages/{0}" + RazorViewEngine.ViewExtension);
+    var storageOptions = sp.GetRequiredService<IOptions<Server.StorageOptions>>().Value;
+
+    return new AzureBlobStorageFileSystem(new BlobContainerClient(new Uri(new Uri(storageOptions.BaseUrl), "/siteoutput"), new DefaultAzureCredential()));
 });
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddDefaultJsonSerializer(System.Text.Json.JsonSerializerOptions.Web);
+
+builder.Services.TryConfigureByConventionWithValidation<ClientOptions>();
+
+builder.Services.AddHttpClient("client", (IServiceProvider sp, HttpClient client) =>
+{
+    var options = sp.GetRequiredService<IOptions<ClientOptions>>().Value;
+
+    client.BaseAddress = new Uri(options.BaseUrl);
+});
 
 var app = builder.Build();
 
-app.Use(async (ctx, next) => {
-    if (ctx.Request.Headers.TryGetValue("HX-Request", out var headers) && headers[0] == "true")
-    {
-        ctx.Response.Headers.Vary = "HX-Request";
-        ctx.Response.Headers.CacheControl = "public, max-age=10";
-    }
-
+app.Use(async (ctx, next) =>
+{
+    // ctx.SetNoCache();
     await next(ctx);
 });
 
-app.MapGet("/{**slug}", async ([FromServices] IRazorTemplateEngine engine, [FromRoute] string slug = "") =>
-{
-    slug = slug.StartsWith('/') ? slug : "/" + slug;
-    slug = slug.EndsWith('/') ? slug : slug + "/";
-    //Render View From the RCL
-    var (exists, renderedString) = await engine.TryRenderAsync($"/Pages{slug}index.cshtml", null);
+// app.UseHttpsRedirection();
 
-    if (!exists)
+static string? GetContentTypeFromExtension(string slug)
+{
+    var split = slug.Split('.');
+    if (split.Length > 0)
     {
-        var (_, fourOhFourPage) = await engine.TryRenderAsync($"/Pages/404/index.cshtml", null);
-        
-        return new HtmlResult(fourOhFourPage!, System.Net.HttpStatusCode.NotFound);
+        switch (split.Last())
+        {
+            case "md":
+                return "text/plain";
+            case "js":
+                return "text/javascript";
+            case "json":
+                return "application/json";
+            case "html":
+                return "text/html";
+            case "ico":
+                return "image/vnd.microsoft.icon";
+            case "svg":
+                return "image/svg+xml";
+            case "css":
+                return "text/css";
+        }
     }
 
-    return new HtmlResult(renderedString!);
-});
+    return null;
+}
 
-app.MapGet("/{fileName}.css", ([FromRoute] string fileName) =>
+app.MapGet("/{**slug}", async (IFileSystem fs, HttpContext context, CancellationToken cancellationToken, [FromRoute] string? slug = null) =>
 {
-    string _basePath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-
-    var file = Path.Join(_basePath, $"/Views/{fileName}.css");
-    if (!File.Exists(file))
+    if (slug != null && await fs.FileExistsAsync(slug))
     {
-        return Results.NotFound("File Not Found");
-    }
-    
-    var contents = System.IO.File.ReadAllBytes(file);
+        var file = await fs.OpenReadAsync(slug, cancellationToken);
 
-    return Results.File(contents, "text/css");
+        var contentType = GetContentTypeFromExtension(slug);
+
+        context.SetMaxAge1StaleInfinite();
+        return Results.Stream(file, contentType);
+    }
+
+    slug = slug is null
+        ? "./index.html"
+        : (slug.EndsWith("/")
+                ? slug.Substring(0, slug.Length - 1)
+                : slug) + "/index.html";
+
+    if (await fs.FileExistsAsync(slug))
+    {
+        var file = await fs.OpenReadAsync(slug, cancellationToken);
+
+        return Results.Stream(file, "text/html");
+    }
+
+    context.Response.StatusCode = 404;
+    return Results.Stream(await fs.OpenReadAsync("./404.html", cancellationToken), "text/html");
 });
+
+UpdateEndpoint.ConfigureEndpoint(app);
 
 app.Run();

@@ -1,0 +1,23 @@
+{
+  "name": "nquandtcom",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "23.11.0"
+  },
+  "workspaces": [
+    "./src/App"
+  ],
+  "scripts": {
+    "dev:app": "cd ./src/App &&npm run dev",
+    "dev:server": "cd ./src/Server &&dotnet watch --no-hot-reload",
+    "dev": "concurrently \"npm run dev:app\" \"npm run dev:server\"",
+    "production:app": "cd ./src/App &&npm run build",
+    "production:server": "dotnet publish ./src/Server/Server.csproj -o ./artifacts",
+    "production": "npm run production:app &&npm run production:server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

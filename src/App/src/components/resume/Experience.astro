@@ -1,0 +1,23 @@
+---
+import Job from "./Job.astro";
+import Section from "./Section.astro";
+
+import { Content as MKE } from "./jobs/Milwaukee-1.md";
+
+const jobs = [
+    {
+        position: {
+            title: "Software Architect",
+            time: "August 2021 - Present",
+            location: "Milwaukee, WI (Remote)",
+            company: "Milwaukee Tool",
+        },
+
+        Content: MKE,
+    },
+];
+---
+
+<Section title="Work Experience">
+    {jobs.map((x) => <Job {...x} />)}
+</Section>

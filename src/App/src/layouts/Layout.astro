@@ -1,0 +1,40 @@
+---
+interface Props {
+    title: string;
+}
+
+import "@/globals.css";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+
+import { ClientRouter } from "astro:transitions";
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/x-icon" href="/favicon_32.ico" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Quandt | {title}</title>
+        <script is:inline type="text/javascript" src="/theme.js"></script>
+
+        <ClientRouter />
+    </head>
+    <body
+        class="font-lato dark:text-gray-3 dark:bg-zinc-950 light:bg-light light:text-gray-7 !print:text-black !print:fill-black overflow-x-hidden overflow-y-scroll"
+    >
+        <main
+            class="w-full h-full relative min-h-screen flex flex-col justify-between items-center gap-32"
+        >
+            <div class="w-full flex flex-col justify-start items-center gap-8">
+                <Header />
+                <slot />
+            </div>
+            <Footer />
+        </main>
+    </body>
+</html>

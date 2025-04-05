@@ -1,0 +1,71 @@
+li {
+    p {
+        display: inline;
+    }
+}
+
+ul {
+    @apply list-disc list-inside -indent-12 !pl-12;
+}
+
+h1 {
+    @apply text-2xl;
+}
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-lg;
+}
+
+.pulse {
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    animation-play-state: paused;
+    animation-direction: alternate;
+}
+
+.pulse:hover {
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.active-pulse {
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+    }
+}
+
+@media print {
+    body {
+        visibility: hidden;
+    }
+
+    #section-to-print {
+        /* padding: 0; */
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+@page {
+    size: auto; /* auto is the initial value */
+
+    /* this affects the margin in the printer settings */
+    /* margin: 5mm 5mm 5mm 5mm; */
+}
