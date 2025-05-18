@@ -2,12 +2,11 @@
 type Position = {
     title: string;
     time: string;
-    location: string;
-    company: string;
 };
 interface Props {
     position: Position | Position[];
-
+    location: string;
+    company: string;
     Content: AstroComponentFactory;
 }
 
@@ -15,13 +14,22 @@ import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import Prose from "@/components/Prose.astro";
 import Position from "./Position.astro";
 
-const { position, Content } = Astro.props;
+const { position, company, location, Content } = Astro.props;
 
 const positions = Array.isArray(position) ? position : [position];
 ---
 
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full gap-2">
     <div>
+        <div class="flex justify-between">
+            <div>
+                {company}
+            </div>
+            <div>
+                {location}
+                <!-- {time} -->
+            </div>
+        </div>
         {positions.map((x) => <Position {...x} />)}
     </div>
     <Prose>

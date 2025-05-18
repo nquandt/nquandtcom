@@ -12,5 +12,5 @@ const mdContent = marked.parse(content);
 ---
 
 <Prose>
-    <div set:html={mdContent} />
+    <div class="flex flex-col gap-2" set:html={mdContent} />
 </Prose>

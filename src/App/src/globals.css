@@ -5,7 +5,11 @@ li {
 }
 
 ul {
-    @apply list-disc list-inside -indent-12 !pl-12;
+    @apply list-disc list-inside -indent-8 !pl-8;
+}
+
+a {
+    text-decoration: none !important;
 }
 
 h1 {

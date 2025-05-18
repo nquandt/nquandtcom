@@ -1,0 +1,16 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Content, rawContent } from "./about.md";
+import Container from "@/components/Container.astro";
+import Markdown from "@/components/Markdown.astro";
+---
+
+<Layout title="About Me">
+    <Container>
+        <Markdown content={rawContent()} />
+
+        <!-- <div>
+            <Content />
+        </div> -->
+    </Container>
+</Layout>

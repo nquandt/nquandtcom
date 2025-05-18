@@ -2,18 +2,59 @@
 import Job from "./Job.astro";
 import Section from "./Section.astro";
 
-import { Content as MKE } from "./jobs/Milwaukee-1.md";
+import { Content as MKE1 } from "./jobs/Milwaukee-1.md";
+import { Content as MKE2 } from "./jobs/Milwaukee-2.md";
+import { Content as MKE3 } from "./jobs/Milwaukee-3.md";
+import { Content as MKE4 } from "./jobs/Milwaukee-4.md";
+import { Content as BW } from "./jobs/BW-5.md";
 
 const jobs = [
     {
         position: {
             title: "Software Architect",
-            time: "August 2021 - Present",
-            location: "Milwaukee, WI (Remote)",
-            company: "Milwaukee Tool",
+            time: "December 2023 - Present",
         },
+        location: "Milwaukee, WI (Remote)",
+        company: "Milwaukee Tool",
 
-        Content: MKE,
+        Content: MKE1,
+    },
+    {
+        position: {
+            title: "Senior Software Engineer",
+            time: "August 2022 - November 2023",
+        },
+        location: null!,
+        company: null!,
+
+        Content: MKE2,
+    },
+    {
+        position: {
+            title: "Software Engineer II",
+            time: "April 2022 - July 2022",
+        },
+        location: null!,
+        company: null!,
+        Content: MKE3,
+    },
+    {
+        position: {
+            title: "Software Engineer",
+            time: "August 2021 - March 2022",
+        },
+        location: null!,
+        company: null!,
+        Content: MKE4,
+    },
+    {
+        position: {
+            title: "Sales Analyst",
+            time: "January 2019 - July 2021",
+        },
+        location: "Pewaukee, WI (Hybrid)",
+        company: "Builders World Wholesale Distribution",
+        Content: BW,
     },
 ];
 ---
