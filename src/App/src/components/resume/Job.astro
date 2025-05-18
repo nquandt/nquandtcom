@@ -8,14 +8,13 @@ interface Props {
     location: string;
     company: string;
     content: string;
+    overview?: string;
 }
 
-import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import Prose from "@/components/Prose.astro";
 import Position from "./Position.astro";
 import Markdown from "@/components/Markdown.astro";
 
-const { position, company, location, content } = Astro.props;
+const { position, company, location, content, overview } = Astro.props;
 
 const positions = Array.isArray(position) ? position : [position];
 ---
@@ -33,5 +32,6 @@ const positions = Array.isArray(position) ? position : [position];
         </div>
         {positions.map((x) => <Position {...x} />)}
     </div>
+    {overview && <Markdown content={overview} />}
     <Markdown content={content} />
 </div>

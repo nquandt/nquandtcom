@@ -17,6 +17,7 @@ const experiences = await getExperiences();
             .map((x) => (
                 <Job
                     {...{
+                        overview: x.overview,
                         company: x.company,
                         content: x.details,
                         location: x.location,
