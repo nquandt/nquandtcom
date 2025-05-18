@@ -1,14 +1,30 @@
 ---
-import Container from "@/components/Container.astro";
-import SummaryText from "./SummaryText.md";
+import VL from "@/components/VL.astro";
+
+import { getSummary } from "@/services/summary";
+import Markdown from "@/components/Markdown.astro";
+
+const { title, statement } = await getSummary(1);
 ---
 
-<div class="flex flex-col w-full gap-6">
-    <div>
-        <div>Nicholas Quandt</div>
-        <div>Software Architect</div>
+<div class="flex flex-col w-full gap-6 print:gap-2">
+    <div class="flex justify-between">
+        <div class="flex flex-col">
+            <div>Nicholas Quandt</div>
+            <div class="font-bold">{title}</div>
+        </div>
+        <div class="flex flex-col items-end">
+            <div class="flex gap-2">
+                <a href="https://www.linkedin.com/in/nquandt"
+                    >https://linkedin.com/in/nquandt</a
+                >
+                <VL />
+                <a href="https://github.com/nquandt"
+                    >https://github.com/nquandt</a
+                >
+            </div>
+        </div>
     </div>
-    <div>
-        <SummaryText />
-    </div>
+
+    <Markdown content={statement} />
 </div>
