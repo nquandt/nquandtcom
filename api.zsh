@@ -4,7 +4,8 @@ generate_post_data()
 {
   "routes": [
     "/",
-    "/resume"
+    "/resume",
+    "/about"
   ]
 }
 EOF
